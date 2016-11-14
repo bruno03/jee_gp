@@ -38,6 +38,10 @@ charset=UTF-8"
 		<a class="btn btn-default" href="<c:url value="/newBill">
 									<c:param name="carId" value="${ car.id }" />
 								</c:url>" role="button">Ajouter une facture</a>
+								
+		<a class="btn btn-default" href="<c:url value="/updateCar">
+									<c:param name="carId" value="${ car.id }" />
+								</c:url>" role="button">Modifier les données du véhicule</a>
 				
 	</div>
 	

@@ -143,7 +143,6 @@ public class ClientDaoImpl implements ClientDAO {
 	} finally {
 	    fermeturesSilencieuses(valeursAutoGenerees, preparedStatement, connexion);
 	}
-
     }
 
     private static final String SQL_DELETE = "DELETE FROM client WHERE id = ?";

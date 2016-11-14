@@ -15,6 +15,7 @@ public class CreateCarForm {
     private static final String FIELD_MODEL = "modelCar";
     private static final String FIELD_IMMATRICULATION = "immatriculationCar";
     private static final String FIELD_CLIENT_ID = "clientIdCar";
+    private static final String FIELD_CAR_ID = "carId";
 
     private String resultat;
     private Map<String, String> erreurs = new HashMap<String, String>();
@@ -59,6 +60,46 @@ public class CreateCarForm {
 	}
 
 	return car;
+    }
+
+    public Car updateCar(HttpServletRequest request) {
+
+	String brand = getValueField(request, FIELD_BRAND);
+	String model = getValueField(request, FIELD_MODEL);
+	String immatriculation = getValueField(request, FIELD_IMMATRICULATION);
+	String clientId = getValueField(request, FIELD_CLIENT_ID);
+	String idCar = getValueField(request, FIELD_CAR_ID);
+
+	Car car = new Car();
+	try {
+	    handleBrand(brand, car);
+	    handleModel(model, car);
+	    handleImmatriculation(immatriculation, car);
+	    handleClientId(clientId, car);
+	    handleCarId(idCar, car);
+
+	    if (erreurs.isEmpty()) {
+		carDao.updateCar(car);
+		resultat = "Succès de la modification voiture.";
+	    } else {
+		resultat = "Échec de la modification voiture.";
+	    }
+	} catch (DAOException e) {
+	    resultat = "Échec de la modification voiture : une erreur imprévue est survenue, merci de réessayer dans quelques instants.";
+	    e.printStackTrace();
+	}
+
+	return car;
+    }
+
+    private void handleCarId(String idCar, Car car) {
+	Long id = -1L;
+	try {
+	    id = validateClient(idCar);
+	} catch (Exception e) {
+	    setErreur(FIELD_CLIENT_ID, e.getMessage());
+	}
+	car.setId(id);
     }
 
     private void handleBrand(String brand, Car car) {

@@ -14,4 +14,6 @@ public interface CarDAO {
     List<Car> getCarsByClientId(Long id) throws DAOException;
 
     void createCar(Car car) throws DAOException;
+
+    void updateCar(Car car) throws DAOException;
 }

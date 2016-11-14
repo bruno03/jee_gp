@@ -149,6 +149,32 @@ public class CarDaoImpl implements CarDAO {
 	}
     }
 
+    private static final String SQL_UPDATE = "UPDATE Voiture SET marque=?, modele =?, plaque=?, client_id=? WHERE id=?";
+
+    @Override
+    public void updateCar(Car car) throws DAOException {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet valeursAutoGenerees = null;
+
+	try {
+	    /* Récupération d'une connexion depuis la Factory */
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE, false, car.getBrand(),
+		    car.getModel(), car.getImmatriculation(), car.getClientId(), car.getId());
+	    int statut = preparedStatement.executeUpdate();
+	    /* Analyse du statut retourné par la requête d'insertion */
+	    if (statut == 0) {
+		throw new DAOException("Échec de la modification de la voiture");
+	    }
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(valeursAutoGenerees, preparedStatement, connexion);
+	}
+
+    }
+
     private static Car map(ResultSet resultSet) throws SQLException {
 	Car car = new Car();
 	car.setId(resultSet.getLong("id"));
