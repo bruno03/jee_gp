@@ -19,6 +19,7 @@ public class ClientList extends HttpServlet {
     private static final String VIEW = "/WEB-INF/clients/clients.jsp";
 
     private static final String ATT_CLIENTS = "clients";
+    private static final String FIELD_VALUE_SEARCH = "searchValue";
 
     public static final String CONF_DAO_FACTORY = "daofactory";
     private ClientDAO clientDao;
@@ -30,9 +31,23 @@ public class ClientList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-	List<Client> clients = clientDao.getAll();
+	String value = req.getParameter(FIELD_VALUE_SEARCH);
+	System.out.println("--------------------------------------------" + value);
+	List<Client> clients;
+
+	if (value == null || value == "") {
+	    clients = clientDao.getAll();
+	} else {
+	    clients = clientDao.getNameStartWith(value);
+	}
 
 	req.setAttribute(ATT_CLIENTS, clients);
+
+	// String json = new Gson().toJson(clients);
+	//
+	// resp.setContentType("application/json");
+	// resp.setCharacterEncoding("UTF8");
+	// resp.getWriter().write(json);
 
 	this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
     }

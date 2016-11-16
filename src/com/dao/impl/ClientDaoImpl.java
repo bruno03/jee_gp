@@ -55,6 +55,36 @@ public class ClientDaoImpl implements ClientDAO {
 	return clients;
     }
 
+    private static final String SQL_SELECT_NAME_START_WITH = "SELECT id, nom, prenom, adresse, cp, ville FROM client WHERE nom LIKE ?";
+
+    @Override
+    public List<Client> getNameStartWith(String value) throws DAOException {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet resultSet = null;
+	List<Client> clients = new ArrayList<Client>();
+
+	try {
+	    /* Récupération d'une connexion depuis la Factory */
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_NAME_START_WITH, false,
+		    value + "%");
+	    resultSet = preparedStatement.executeQuery();
+	    /*
+	     * Parcours de la ligne de données de l'éventuel ResulSet retourné
+	     */
+	    while (resultSet.next()) {
+		clients.add(map(resultSet));
+	    }
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(resultSet, preparedStatement, connexion);
+	}
+
+	return clients;
+    }
+
     private static final String SQL_SELECT_PAR_ID = "SELECT id, nom, prenom, adresse, cp, ville FROM Client WHERE id = ?";
 
     @Override
@@ -183,4 +213,5 @@ public class ClientDaoImpl implements ClientDAO {
 
 	return client;
     }
+
 }

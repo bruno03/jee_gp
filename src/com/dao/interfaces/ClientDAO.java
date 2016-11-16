@@ -9,6 +9,8 @@ public interface ClientDAO {
 
     List<Client> getAll() throws DAOException;
 
+    List<Client> getNameStartWith(String value) throws DAOException;
+
     Client getById(Long id) throws DAOException;
 
     void createClient(Client client) throws DAOException;

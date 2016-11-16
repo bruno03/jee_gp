@@ -17,6 +17,13 @@ charset=UTF-8"
 		<br/>
 		<br/>
 		
+		<form class="form-inline" method="get" action="clients">
+			<input type="text" class="form-control" id="searchValue" name="searchValue" placeholder="" >		
+			<input class="btn btn-default" type="submit" value="Rechercher">
+		</form>
+		
+		<br/>
+		
 		<c:choose>
 		
 			<c:when test="${ empty clients }">
@@ -53,10 +60,15 @@ charset=UTF-8"
 						
 				</table>				
 			</c:otherwise>			
-		</c:choose>
-		
-		
+		</c:choose>				
 	</div>
+	
+	
+	<script type="text/javascript">
+	
+	
+	
+	</script>
 	
 	
 	<c:import url="/inc/footer.jsp"></c:import>
