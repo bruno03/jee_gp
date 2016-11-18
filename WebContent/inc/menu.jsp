@@ -19,6 +19,7 @@
         <li><a href="<c:url value="/clients"/>">Clients <span class="sr-only">(current)</span></a></li>
         <li><a href="<c:url value="/voitures"/>">Voitures</a></li> 
         <li><a href="<c:url value="/factures"/>">Factures</a></li> 
+        <li><a href="<c:url value="/newBill"/>">Nouvelle factures</a></li>         
       </ul>
  
     </div><!-- /.navbar-collapse -->

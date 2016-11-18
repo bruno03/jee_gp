@@ -28,7 +28,7 @@ charset=UTF-8"
 			</div>
 			
 			<div class="form-group">
-				<label for="immatriculationCar">Voiture ID</label>
+				<label for="carIdBill">Voiture ID</label>
 				<input type="text" class="form-control" id="carIdBill"
 				 name="carIdBill" value="<c:out value="${ bill.carId }"/>" placeholder="" aria-describedby="carIdBill2">
 				<span id="carIdBill2" class="help-block"><c:out value="${ form.erreurs['carIdBill'] }" /></span>		

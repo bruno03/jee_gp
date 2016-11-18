@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dao.beans.Bill;
-import com.dao.beans.Car;
 import com.dao.factories.DaoFactoryMySQL;
 import com.dao.interfaces.BillDAO;
 import com.dao.interfaces.CarDAO;
@@ -19,6 +18,7 @@ import com.garage.forms.CreateBillForm;
 public class BillCreate extends HttpServlet {
 
     private static final String VIEW_FORM = "/WEB-INF/bills/create.jsp";
+    private static final String VIEW_FORM2 = "/WEB-INF/bills/newBill.jsp";
     private static final String VIEW_BILLS = "factures";
 
     private static final String FIELD_CAR_ID = "carId";
@@ -38,24 +38,24 @@ public class BillCreate extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-	String carId = req.getParameter(FIELD_CAR_ID);
-	Long id;
-	try {
-	    id = Long.parseLong(carId);
-	} catch (Exception e) {
-	    id = 0L;
-	}
-	Car car = carDao.getById(id);
+	// String carId = req.getParameter(FIELD_CAR_ID);
+	// Long id;
+	// try {
+	// id = Long.parseLong(carId);
+	// } catch (Exception e) {
+	// id = 0L;
+	// }
+	// Car car = carDao.getById(id);
+	//
+	// Bill bill = new Bill();
+	// bill.setCar(car);
+	// bill.setCarId(car.getId());
+	// bill.setClient(car.getClient());
+	// bill.setClientId(car.getClientId());
+	//
+	// req.setAttribute(ATT_BILL, bill);
 
-	Bill bill = new Bill();
-	bill.setCar(car);
-	bill.setCarId(car.getId());
-	bill.setClient(car.getClient());
-	bill.setClientId(car.getClientId());
-
-	req.setAttribute(ATT_BILL, bill);
-
-	this.getServletContext().getRequestDispatcher(VIEW_FORM).forward(req, resp);
+	this.getServletContext().getRequestDispatcher(VIEW_FORM2).forward(req, resp);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class BillCreate extends HttpServlet {
 	if (form.getErreurs().isEmpty()) {
 	    resp.sendRedirect(VIEW_BILLS);
 	} else {
-	    this.getServletContext().getRequestDispatcher(VIEW_FORM).forward(req, resp);
+	    this.getServletContext().getRequestDispatcher(VIEW_FORM2).forward(req, resp);
 	}
     }
 }
