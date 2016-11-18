@@ -15,7 +15,7 @@ charset=UTF-8"
 		<form method="post" action="newBill">	
 			<div class="form-group">
 				<label for="dateBill">Date</label>
-				<input type="date" class="form-control" id="dateBill" 
+				<input type="text" class="form-control" id="dateBill" 
 				name="dateBill" placeholder="" value="<c:out value="${ bill.date }"/>" aria-describedby="dateBill2">
 				<span id="dateBill2" class="help-block"><c:out value="${ form.erreurs['dateBill'] }" /></span>
 			</div>
@@ -58,5 +58,9 @@ charset=UTF-8"
 	
 	</div>
 	
+	
+		
+
+
 	
 	<c:import url="/inc/footer.jsp"></c:import>

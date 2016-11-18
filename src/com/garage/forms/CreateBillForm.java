@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import com.dao.beans.Bill;
 import com.dao.factories.DAOException;
@@ -129,7 +131,8 @@ public class CreateBillForm {
 	DateTime dt = null;
 
 	try {
-	    dt = DateTime.parse(date);
+	    DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/mm/yyyy");
+	    dt = formatter.parseDateTime(date);
 
 	} catch (IllegalArgumentException e) {
 	    dt = DateTime.parse("20000101");

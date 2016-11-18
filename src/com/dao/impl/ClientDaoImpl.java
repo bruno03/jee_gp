@@ -13,17 +13,14 @@ import java.util.List;
 import com.dao.beans.Client;
 import com.dao.factories.DAOException;
 import com.dao.factories.DaoFactoryMySQL;
-import com.dao.interfaces.CarDAO;
 import com.dao.interfaces.ClientDAO;
 
 public class ClientDaoImpl implements ClientDAO {
 
     private DaoFactoryMySQL daoFactory;
-    private static CarDAO carDao;
 
     public ClientDaoImpl(DaoFactoryMySQL daoFactory) {
 	this.daoFactory = daoFactory;
-	// this.carDao = daoFactory.getCarDao();
     }
 
     private static final String SQL_SELECT = "SELECT id, nom, prenom, adresse, cp, ville FROM client";
@@ -55,7 +52,7 @@ public class ClientDaoImpl implements ClientDAO {
 	return clients;
     }
 
-    private static final String SQL_SELECT_NAME_START_WITH = "SELECT id, nom, prenom, adresse, cp, ville FROM client WHERE nom LIKE ?";
+    private static final String SQL_SELECT_NAME_START_WITH = "SELECT id, nom, prenom, adresse, cp, ville FROM client WHERE nom LIKE ? OR prenom LIKE ?";
 
     @Override
     public List<Client> getNameStartWith(String value) throws DAOException {
@@ -67,7 +64,7 @@ public class ClientDaoImpl implements ClientDAO {
 	try {
 	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_NAME_START_WITH, false,
+	    preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_NAME_START_WITH, false, value + "%",
 		    value + "%");
 	    resultSet = preparedStatement.executeQuery();
 	    /*
@@ -200,7 +197,7 @@ public class ClientDaoImpl implements ClientDAO {
 
     }
 
-    private static Client map(ResultSet resultSet) throws SQLException {
+    private Client map(ResultSet resultSet) throws SQLException {
 	Client client = new Client();
 	client.setId(resultSet.getLong("id"));
 	client.setLastname(resultSet.getString("nom"));
@@ -209,6 +206,7 @@ public class ClientDaoImpl implements ClientDAO {
 	client.setCp(resultSet.getString("cp"));
 	client.setCity(resultSet.getString("ville"));
 
+	// CarDAO carDao = daoFactory.getCarDao();
 	// client.setCars(carDao.getCarsByClientId(client.getId()));
 
 	return client;

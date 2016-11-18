@@ -58,5 +58,4 @@ charset=UTF-8"
 	
 	</div>
 	
-	
 	<c:import url="/inc/footer.jsp"></c:import>

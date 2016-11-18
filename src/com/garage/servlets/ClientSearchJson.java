@@ -1,6 +1,7 @@
 package com.garage.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,15 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dao.beans.Client;
+import com.dao.beans.DataSearch;
 import com.dao.factories.DaoFactoryMySQL;
 import com.dao.interfaces.ClientDAO;
+import com.google.gson.Gson;
 
-@WebServlet(urlPatterns = "/clients")
-public class ClientList extends HttpServlet {
+@WebServlet(urlPatterns = "/searchClient")
+public class ClientSearchJson extends HttpServlet {
 
-    private static final String VIEW = "/WEB-INF/clients/clients.jsp";
-
-    private static final String ATT_CLIENTS = "clients";
     private static final String FIELD_VALUE_SEARCH = "searchValue";
 
     public static final String CONF_DAO_FACTORY = "daofactory";
@@ -32,16 +32,19 @@ public class ClientList extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 	String value = req.getParameter(FIELD_VALUE_SEARCH);
-	List<Client> clients;
 
-	if (value == null || value == "") {
-	    clients = clientDao.getAll();
-	} else {
-	    clients = clientDao.getNameStartWith(value);
+	List<Client> clients = clientDao.getNameStartWith(value);
+
+	List<DataSearch> list = new ArrayList<DataSearch>();
+
+	for (int i = 0; i < clients.size(); i++) {
+	    list.add(new DataSearch(clients.get(i).getFullName(), clients.get(i).getId().toString()));
 	}
 
-	req.setAttribute(ATT_CLIENTS, clients);
+	String json = new Gson().toJson(list);
 
-	this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+	resp.setContentType("application/json");
+	resp.setCharacterEncoding("UTF8");
+	resp.getWriter().write(json);
     }
 }
