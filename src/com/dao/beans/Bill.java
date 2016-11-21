@@ -1,5 +1,7 @@
 package com.dao.beans;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 
 public class Bill {
@@ -13,6 +15,7 @@ public class Bill {
 
     private Client client;
     private Car car;
+    private List<DetailBill> details;
 
     public Long getId() {
 	return id;
@@ -76,6 +79,14 @@ public class Bill {
 
     public void setCar(Car car) {
 	this.car = car;
+    }
+
+    public List<DetailBill> getDetails() {
+	return details;
+    }
+
+    public void setDetails(List<DetailBill> details) {
+	this.details = details;
     }
 
 }

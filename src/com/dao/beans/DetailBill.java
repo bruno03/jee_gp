@@ -6,7 +6,7 @@ public class DetailBill {
     private String description;
     private Integer quantity;
     private Double unitAmount;
-    private Double finalAount;
+    private Double finalAmount;
     private Long billId;
 
     private Bill bill;
@@ -43,12 +43,12 @@ public class DetailBill {
 	this.unitAmount = unitAmount;
     }
 
-    public Double getFinalAount() {
-	return finalAount;
+    public Double getFinalAmount() {
+	return finalAmount;
     }
 
-    public void setFinalAount(Double finalAount) {
-	this.finalAount = finalAount;
+    public void setFinalAmount(Double finalAmount) {
+	this.finalAmount = finalAmount;
     }
 
     public Long getBillId() {

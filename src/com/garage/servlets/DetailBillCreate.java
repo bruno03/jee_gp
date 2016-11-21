@@ -14,31 +14,32 @@ import com.dao.beans.DetailBill;
 import com.dao.factories.DaoFactoryMySQL;
 import com.dao.interfaces.BillDAO;
 import com.dao.interfaces.DetailBillDAO;
+import com.garage.forms.CreateDetailBillForm;
 
-@WebServlet(urlPatterns = "/facture")
-public class BillDetail extends HttpServlet {
+@WebServlet(urlPatterns = "/newDetailBill")
+public class DetailBillCreate extends HttpServlet {
 
     private static final String VIEW = "/WEB-INF/bills/detail.jsp";
 
     private static final String ATT_BILL = "bill";
-    private static final String ID_FIELD = "billId";
+    private static final String ATT_FORM = "form";
 
-    public static final String CONF_DAO_FACTORY = "daofactory";
-    private BillDAO billDao;
+    private static final String CONF_DAO_FACTORY = "daofactory";
     private DetailBillDAO detailBillDao;
+    private BillDAO billDao;
 
     public void init() throws ServletException {
-	this.billDao = ((DaoFactoryMySQL) getServletContext().getAttribute(CONF_DAO_FACTORY)).getBillDao();
 	this.detailBillDao = ((DaoFactoryMySQL) getServletContext().getAttribute(CONF_DAO_FACTORY)).getBillDetailDao();
+	this.billDao = ((DaoFactoryMySQL) getServletContext().getAttribute(CONF_DAO_FACTORY)).getBillDao();
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	CreateDetailBillForm form = new CreateDetailBillForm(detailBillDao);
 
-	String idString = req.getParameter(ID_FIELD);
-	Long id = Long.parseLong(idString);
+	DetailBill detailBill = form.createDetailBill(req);
 
-	Bill bill = billDao.getById(id);
+	Bill bill = billDao.getById(detailBill.getBillId());
 
 	List<DetailBill> details = detailBillDao.getByBillId(bill.getId());
 	bill.setDetails(details);
@@ -46,5 +47,6 @@ public class BillDetail extends HttpServlet {
 	req.setAttribute(ATT_BILL, bill);
 
 	this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+
     }
 }

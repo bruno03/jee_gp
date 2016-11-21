@@ -15,11 +15,11 @@ import com.dao.factories.DAOException;
 import com.dao.factories.DaoFactoryMySQL;
 import com.dao.interfaces.DetailBillDAO;
 
-public class DetailBillImpl implements DetailBillDAO {
+public class DetailBillDaoImpl implements DetailBillDAO {
 
     private DaoFactoryMySQL daoFactory;
 
-    public DetailBillImpl(DaoFactoryMySQL daoFactory) {
+    public DetailBillDaoImpl(DaoFactoryMySQL daoFactory) {
 	this.daoFactory = daoFactory;
     }
 
@@ -122,7 +122,7 @@ public class DetailBillImpl implements DetailBillDAO {
 	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, billDetail.getQuantity(),
-		    billDetail.getDescription(), billDetail.getUnitAmount(), billDetail.getFinalAount(),
+		    billDetail.getDescription(), billDetail.getUnitAmount(), billDetail.getFinalAmount(),
 		    billDetail.getBillId());
 	    int statut = preparedStatement.executeUpdate();
 	    /* Analyse du statut retourné par la requête d'insertion */
@@ -162,7 +162,7 @@ public class DetailBillImpl implements DetailBillDAO {
 	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE, false, billDetail.getQuantity(),
-		    billDetail.getDescription(), billDetail.getUnitAmount(), billDetail.getFinalAount(),
+		    billDetail.getDescription(), billDetail.getUnitAmount(), billDetail.getFinalAmount(),
 		    billDetail.getBillId(), billDetail.getId());
 	    int statut = preparedStatement.executeUpdate();
 	    /* Analyse du statut retourné par la requête d'insertion */
@@ -208,7 +208,7 @@ public class DetailBillImpl implements DetailBillDAO {
 	billDetail.setQuantity(resultSet.getInt("quantite"));
 	billDetail.setDescription(resultSet.getString("description"));
 	billDetail.setUnitAmount(resultSet.getDouble("montant_unitaire"));
-	billDetail.setFinalAount(resultSet.getDouble("montant_final"));
+	billDetail.setFinalAmount(resultSet.getDouble("montant_final"));
 	billDetail.setBillId(resultSet.getLong("facture_id"));
 	return billDetail;
     }

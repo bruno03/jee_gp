@@ -9,9 +9,11 @@ import java.util.Properties;
 import com.dao.impl.BillDaoImpl;
 import com.dao.impl.CarDaoImpl;
 import com.dao.impl.ClientDaoImpl;
+import com.dao.impl.DetailBillDaoImpl;
 import com.dao.interfaces.BillDAO;
 import com.dao.interfaces.CarDAO;
 import com.dao.interfaces.ClientDAO;
+import com.dao.interfaces.DetailBillDAO;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 
@@ -120,5 +122,9 @@ public class DaoFactoryMySQL {
 
     public BillDAO getBillDao() {
 	return new BillDaoImpl(this);
+    }
+
+    public DetailBillDAO getBillDetailDao() {
+	return new DetailBillDaoImpl(this);
     }
 }
