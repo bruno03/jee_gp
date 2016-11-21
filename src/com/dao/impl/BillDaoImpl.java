@@ -17,15 +17,19 @@ import com.dao.beans.Bill;
 import com.dao.factories.DAOException;
 import com.dao.factories.DaoFactoryMySQL;
 import com.dao.interfaces.BillDAO;
+import com.dao.interfaces.CarDAO;
+import com.dao.interfaces.ClientDAO;
 
 public class BillDaoImpl implements BillDAO {
 
     private DaoFactoryMySQL daoFactory;
-    // private static ClientDAO clientDao;
+    private ClientDAO clientDao;
+    private CarDAO carDao;
 
     public BillDaoImpl(DaoFactoryMySQL daoFactory) {
 	this.daoFactory = daoFactory;
-	// this.clientDao = daoFactory.getClientDao();
+	this.clientDao = daoFactory.getClientDao();
+	this.carDao = daoFactory.getCarDao();
     }
 
     private static final String SQL_SELECT = "SELECT id, date, client_id, voiture_id, km, montant FROM facture";
@@ -194,7 +198,7 @@ public class BillDaoImpl implements BillDAO {
 
     }
 
-    private static Bill map(ResultSet resultSet) throws SQLException {
+    private Bill map(ResultSet resultSet) throws SQLException {
 	Bill bill = new Bill();
 	bill.setId(resultSet.getLong("id"));
 	bill.setDate(new DateTime(resultSet.getTimestamp("date")));
@@ -202,6 +206,9 @@ public class BillDaoImpl implements BillDAO {
 	bill.setCarId(resultSet.getLong("voiture_id"));
 	bill.setKm(resultSet.getInt("km"));
 	bill.setAmount(resultSet.getDouble("montant"));
+
+	bill.setClient(clientDao.getById(bill.getClientId()));
+	bill.setCar(carDao.getById(bill.getCarId()));
 	return bill;
     }
 }

@@ -63,9 +63,9 @@
 		$("#carIdGroup").hide(); 
 		$("#clientNoCar").hide();   
 		
-	    $("#clientIdBill").autocomplete({
+	    $("#searchClient").autocomplete({
 	    	source:function(request,response){
-	    		var value = $("#clientIdBill").val(); 
+	    		var value = $("#searchClient").val(); 
 	    		$.ajax({
 		    		url: 'searchClient',
 		    		type: 'GET',
@@ -99,6 +99,8 @@
 	    		$("#clientSelected").append("<p>"+client.addresse +"</p>");
 	    		$("#clientSelected").append("<p>"+client.cp + " " + client.city+"</p>");
 	    		$("#clientSelected").append("<br/>");
+	    		
+	    		$("#clientIdBill").val(client.id);
 
 
 	    		//on initalise les voitures du clients sélectionné
@@ -113,15 +115,18 @@
 	    			$("#clientNoCar").hide();   
 	    			
 	    			//on nettoie le select 
-	    			$("#carIdBill").empty(); 	
+	    			$("#carSelected").empty(); 	
 	    			
 	    			//on implémente les options du select avec les voitures du client
 		    		$.each(cars, function(i, car){
-		    			$("#carIdBill").append($('<option>',{
+		    			$("#carSelected").append($('<option>',{
 		    				value:car.id,
 		    				text: car.brand + " " + car.model
 		    			}))
 		    		});
+	    			
+	    			//on déclenche le onchange sur le select
+	    			$("#carSelected").trigger("change");
 	    		}
 	    		else{
 	    			//on rend invisible le div pour sélectionner une voiture 
@@ -137,7 +142,11 @@
 	    });
  
 	    
-
+	    $("#carSelected").change(function(){
+	    	$("#carIdBill").val(this.value);
+	    });
+	    
+	    
 	    
 	});
 	

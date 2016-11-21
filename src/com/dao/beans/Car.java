@@ -21,6 +21,10 @@ public class Car {
 	return brand;
     }
 
+    public String getFullName() {
+	return brand + " " + model;
+    }
+
     public void setBrand(String brand) {
 	this.brand = brand;
     }

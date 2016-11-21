@@ -40,8 +40,8 @@ charset=UTF-8"
 							 </a>    		
 							</td>
 							<td><c:out value="${ bill.date }" /></td>
-							<td><c:out value="${ bill.clientId }" /></td>
-							<td><c:out value="${ bill.carId }" /></td>
+							<td><c:out value="${ bill.client.fullName }" /></td>
+							<td><c:out value="${ bill.car.fullName }" /></td>
 							<td><c:out value="${ bill.km }" /></td>
 							<td><c:out value="${ bill.amount }" /></td>
 						</tr>				

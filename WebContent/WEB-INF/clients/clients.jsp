@@ -15,13 +15,7 @@ charset=UTF-8"
 		
 		<a class="btn btn-default" href="<c:url value="/newClient"></c:url>" role="button">Nouveau client</a>
 		<br/>
-		<br/>
-		
-		<form class="form-inline" method="get" action="clients">
-			<input id="clients" type="text" class="form-control" name="searchValue" placeholder="" >		
-			<input class="btn btn-default" type="submit" value="Rechercher">
-		</form>
-		
+
 		<br/>	
 		<input id="search" type="text" class="form-control" placeholder="Rechercher un client">						
 		<br/>

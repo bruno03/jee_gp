@@ -19,11 +19,11 @@ charset=UTF-8"
   			<dt>Date</dt>
   			<dd><c:out value="${ bill.date }" /></dd>
   			
-  			<dt>Client ID</dt>
-  			<dd><c:out value="${ bill.clientId }" /></dd>
+  			<dt>Client</dt>
+  			<dd><c:out value="${ bill.client.fullName }" /></dd>
   			
-  			<dt>Voiture ID</dt>
-  			<dd><c:out value="${ bill.carId }" /></dd>
+  			<dt>Voiture</dt>
+  			<dd><c:out value="${ bill.car.fullName }" /></dd>
   			
   			<dt>KM</dt>
   			<dd><c:out value="${ bill.km }" /></dd>

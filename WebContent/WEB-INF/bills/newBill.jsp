@@ -14,16 +14,16 @@ charset=UTF-8"
 		<h1>Nouvelle Facture :</h1>
 			<form method="post" action="newBill">
 				<div class="form-group">
-					<label for="clientIdBill">Clients</label>
-					<input type="text" class="form-control" id="clientIdBill" placeholder="Rechercher un client" />
+					<label for="searchClient">Clients</label>
+					<input type="text" class="form-control" id="searchClient" placeholder="Rechercher un client" />
 				</div>
 		
 				<div id="clientSelected"></div>
 				
 				
 				<div class="form-group" id="carIdGroup">
-					<label for="carIdBill">Sélectionnez une voiture du client</label>
-					<select class="form-control" id="carIdBill"></select>
+					<label for="carSelected">Sélectionnez une voiture du client</label>
+					<select class="form-control" id="carSelected"></select>
 				</div>
 				
 				<div id="clientNoCar">
@@ -31,11 +31,25 @@ charset=UTF-8"
 					<a class="btn btn-default" href="" role="button">Ajouter une voiture</a>	
 				</div>
 				
+				
+				<br>
 				<div class="form-group">
 					<label for="dateBill">Date</label>
 					<input type="text" class="form-control" id="dateBill" 
 					name="dateBill" placeholder="" value="<c:out value="${ bill.date }"/>" aria-describedby="dateBill2">
 					<span id="dateBill2" class="help-block"><c:out value="${ form.erreurs['dateBill'] }" /></span>
+				</div>
+				
+				<div class="form-group">
+					<input type="hidden" class="form-control" id="clientIdBill" 
+					name="clientIdBill" value="<c:out value="${ bill.clientId }"/>" placeholder="" aria-describedby="clientIdBill2">
+					<span id="clientIdBill2" class="help-block"><c:out value="${ form.erreurs['clientIdBill'] }" /></span>
+				</div>
+				
+				<div class="form-group">
+					<input type="hidden" class="form-control" id="carIdBill"
+					 name="carIdBill" value="<c:out value="${ bill.carId }"/>" placeholder="" aria-describedby="carIdBill2">
+					<span id="carIdBill2" class="help-block"><c:out value="${ form.erreurs['carIdBill'] }" /></span>		
 				</div>
 				
 				<div class="form-group">
@@ -47,7 +61,7 @@ charset=UTF-8"
 			
 				<div class="form-group">
 					<label for="amountBill">Montant</label>
-					<input type="number" class="form-control" id="amountBill"
+					<input type="text" class="form-control" id="amountBill"
 					 name="amountBill" value="<c:out value="${ bill.amount }"/>" placeholder="Montant" aria-describedby="amountBill2">
 					<span id="amountBill2" class="help-block"><c:out value="${ form.erreurs['amountBill'] }" /></span>		
 				</div>
