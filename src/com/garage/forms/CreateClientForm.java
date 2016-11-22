@@ -1,15 +1,12 @@
 package com.garage.forms;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.dao.beans.Client;
 import com.dao.factories.DAOException;
 import com.dao.interfaces.ClientDAO;
 
-public class CreateClientForm {
+public class CreateClientForm extends CreateFormMaster {
 
     private static final String FIELD_FIRSTNAME = "firstnameClient";
     private static final String FIELD_LASTNAME = "lastnameClient";
@@ -18,21 +15,10 @@ public class CreateClientForm {
     private static final String FIELD_CITY = "cityClient";
     private static final String FIELD_CLIENT_ID = "idClient";
 
-    private String resultat;
-    private Map<String, String> erreurs = new HashMap<String, String>();
-
     private ClientDAO clientDao;
 
     public CreateClientForm(ClientDAO clientDao) {
 	this.clientDao = clientDao;
-    }
-
-    public String getResultat() {
-	return resultat;
-    }
-
-    public Map<String, String> getErreurs() {
-	return erreurs;
     }
 
     public Client creerClient(HttpServletRequest request) {
@@ -163,12 +149,6 @@ public class CreateClientForm {
 	}
     }
 
-    private void validateLengthField(String field, int maxLength) throws FormValidationException {
-	if (field.length() > maxLength) {
-	    throw new FormValidationException("maximum " + maxLength + " caractères");
-	}
-    }
-
     private Long validateClientId(String id) throws FormValidationException {
 	Long clientId = -1L;
 
@@ -183,19 +163,6 @@ public class CreateClientForm {
 	}
 
 	return clientId;
-    }
-
-    private void setErreur(String champ, String message) {
-	erreurs.put(champ, message);
-    }
-
-    private static String getValueField(HttpServletRequest request, String nomChamp) {
-	String valeur = request.getParameter(nomChamp);
-	if (valeur == null || valeur.trim().length() == 0) {
-	    return "";
-	} else {
-	    return valeur.trim();
-	}
     }
 
 }

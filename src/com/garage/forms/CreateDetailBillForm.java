@@ -1,15 +1,12 @@
 package com.garage.forms;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.dao.beans.DetailBill;
 import com.dao.factories.DAOException;
 import com.dao.interfaces.DetailBillDAO;
 
-public class CreateDetailBillForm {
+public class CreateDetailBillForm extends CreateFormMaster {
 
     private static final String FIELD_QUANTITY = "quantity";
     private static final String FIELD_DESCRIPTION = "description";
@@ -17,21 +14,10 @@ public class CreateDetailBillForm {
     private static final String FIELD_FINAL_AMOUNT = "finalAmount";
     private static final String FIELD_BILL_ID = "billId";
 
-    private String resultat;
-    private Map<String, String> erreurs = new HashMap<String, String>();
-
     private DetailBillDAO billDetailDao;
 
     public CreateDetailBillForm(DetailBillDAO billDetailDao) {
 	this.billDetailDao = billDetailDao;
-    }
-
-    public String getResultat() {
-	return resultat;
-    }
-
-    public Map<String, String> getErreurs() {
-	return erreurs;
     }
 
     public DetailBill createDetailBill(HttpServletRequest request) {
@@ -165,18 +151,5 @@ public class CreateDetailBillForm {
 	    throw new FormValidationException("Aucun numéro de BillID");
 	}
 	return id;
-    }
-
-    private void setErreur(String champ, String message) {
-	erreurs.put(champ, message);
-    }
-
-    private static String getValueField(HttpServletRequest request, String nomChamp) {
-	String valeur = request.getParameter(nomChamp);
-	if (valeur == null || valeur.trim().length() == 0) {
-	    return "";
-	} else {
-	    return valeur.trim();
-	}
     }
 }

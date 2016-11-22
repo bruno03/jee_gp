@@ -1,8 +1,5 @@
 package com.garage.forms;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
@@ -13,7 +10,7 @@ import com.dao.beans.Bill;
 import com.dao.factories.DAOException;
 import com.dao.interfaces.BillDAO;
 
-public class CreateBillForm {
+public class CreateBillForm extends CreateFormMaster {
 
     private static final String FIELD_DATE = "dateBill";
     private static final String FIELD_CLIENT_ID = "clientIdBill";
@@ -21,21 +18,10 @@ public class CreateBillForm {
     private static final String FIELD_KM = "kmBill";
     private static final String FIELD_AMOUNT = "amountBill";
 
-    private String resultat;
-    private Map<String, String> erreurs = new HashMap<String, String>();
-
     private BillDAO billDao;
 
     public CreateBillForm(BillDAO billDao) {
 	this.billDao = billDao;
-    }
-
-    public String getResultat() {
-	return resultat;
-    }
-
-    public Map<String, String> getErreurs() {
-	return erreurs;
     }
 
     public Bill createBill(HttpServletRequest request) {
@@ -191,18 +177,5 @@ public class CreateBillForm {
 	    throw new FormValidationException("Problème sur le casting du champs : Montant");
 	}
 	return amountFinal;
-    }
-
-    private void setErreur(String champ, String message) {
-	erreurs.put(champ, message);
-    }
-
-    private static String getValueField(HttpServletRequest request, String nomChamp) {
-	String valeur = request.getParameter(nomChamp);
-	if (valeur == null || valeur.trim().length() == 0) {
-	    return "";
-	} else {
-	    return valeur.trim();
-	}
     }
 }

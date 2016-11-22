@@ -194,7 +194,6 @@ public class ClientDaoImpl implements ClientDAO {
 	} finally {
 	    fermeturesSilencieuses(valeursAutoGenerees, preparedStatement, connexion);
 	}
-
     }
 
     private Client map(ResultSet resultSet) throws SQLException {
