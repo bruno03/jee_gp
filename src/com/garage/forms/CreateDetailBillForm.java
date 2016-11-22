@@ -8,11 +8,11 @@ import com.dao.interfaces.DetailBillDAO;
 
 public class CreateDetailBillForm extends CreateFormMaster {
 
-    private static final String FIELD_QUANTITY = "quantity";
-    private static final String FIELD_DESCRIPTION = "description";
-    private static final String FIELD_UNIT_AMOUNT = "unitAmount";
-    private static final String FIELD_FINAL_AMOUNT = "finalAmount";
-    private static final String FIELD_BILL_ID = "billId";
+    private static final String FIELD_QUANTITY = "quantityDetail";
+    private static final String FIELD_DESCRIPTION = "descriptionDetail";
+    private static final String FIELD_UNIT_AMOUNT = "unitAmountDetail";
+    private static final String FIELD_FINAL_AMOUNT = "finalAmountDetail";
+    private static final String FIELD_BILL_ID = "billIdDetail";
 
     private DetailBillDAO billDetailDao;
 
@@ -52,7 +52,7 @@ public class CreateDetailBillForm extends CreateFormMaster {
     }
 
     private void handleQuantity(String quantity, DetailBill detailBill) {
-	Integer quant = 0;
+	Double quant = 0.0;
 	try {
 	    quant = validateQuantity(quantity);
 	} catch (Exception e) {
@@ -101,15 +101,15 @@ public class CreateDetailBillForm extends CreateFormMaster {
 	detailBill.setBillId(id);
     }
 
-    private Integer validateQuantity(String quantity) throws FormValidationException {
-	Integer kmFinal = -1;
+    private Double validateQuantity(String quantity) throws FormValidationException {
+	Double kmFinal = -1.0;
 	try {
-	    kmFinal = Integer.parseInt(quantity);
+	    kmFinal = Double.parseDouble(quantity);
 	    if (kmFinal < 0) {
 		throw new FormValidationException("la quantité ne peuvent pas être inférieurs à 0");
 	    }
 	} catch (NumberFormatException e) {
-	    kmFinal = -1;
+	    kmFinal = -1.0;
 	    throw new FormValidationException("Problème sur le casting du champs : Quantité");
 	}
 	return kmFinal;

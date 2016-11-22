@@ -4,7 +4,7 @@ public class DetailBill {
 
     private Long id;
     private String description;
-    private Integer quantity;
+    private Double quantity;
     private Double unitAmount;
     private Double finalAmount;
     private Long billId;
@@ -27,11 +27,11 @@ public class DetailBill {
 	this.description = description;
     }
 
-    public Integer getQuantity() {
+    public Double getQuantity() {
 	return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Double quantity) {
 	this.quantity = quantity;
     }
 

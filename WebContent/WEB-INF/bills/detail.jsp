@@ -34,7 +34,7 @@ charset=UTF-8"
 								
 		<br>
 		
-		<table class="table table-stripped">
+		<table class="table">
 			<tr>
 				<th>ID</th>
 				<th>Quantité</th>
@@ -43,46 +43,49 @@ charset=UTF-8"
 				<th>Prix final</th>
 				<th>FactureID</th>
 			</tr>
-			
 			<c:forEach items="${ bill.details }" var="detail" varStatus="boucle">                          
-						<tr>
-							<td><c:out value="${ detail.id }" /></td>
-							<td><c:out value="${ detail.quantity }" /></td>
-							<td><c:out value="${ detail.description }" /></td>
-							<td><c:out value="${ detail.unitAmount }" /></td>
-							<td><c:out value="${ detail.finalAmount }" /></td>
-							<td><c:out value="${ detail.billId }" /></td>
-							
-						</tr>				
-					</c:forEach>		
+				<tr>
+					<td><c:out value="${ detail.id }" /></td>
+					<td><c:out value="${ detail.quantity }" /></td>
+					<td><c:out value="${ detail.description }" /></td>
+					<td><c:out value="${ detail.unitAmount }" /></td>
+					<td><c:out value="${ detail.finalAmount }" /></td>
+					<td><c:out value="${ detail.billId }" /></td>
+					
+				</tr>				
+			</c:forEach>		
+						
 		</table>
 		
-		
-		
+			
 		<br>
-		
 		<form class="form-inline" method="post" action="newDetailBill">
-  			<div class="form-group">
-    			<input type="text" class="form-control" id="quantity" name="quantity" placeholder="Quantité">
+  			<div class="form-group" >
+    			<input type="text" class="form-control" id="quantityDetail" name="quantityDetail" 
+    			placeholder="Quantité">
     		</div>
   			<div class="form-group">
-    			<input type="text" class="form-control" id="description" name="description" placeholder="Description">
+    			<input type="text" class="form-control" id="descriptionDetail" name="descriptionDetail" 
+    			placeholder="Description">
   			</div>
   			
   			<div class="form-group">
-    			<input type="text" class="form-control" id=unityAmount name="unitAmount" placeholder="Montant unitaire">
+    			<input type="text" class="form-control" id="unitAmountDetail" name="unitAmountDetail" 
+    			placeholder="Montant unitaire">
   			</div>
   			
   			<div class="form-group">
-    			<input type="text" class="form-control" id="finalAmount" name="finalAmount" placeholder="Montant final">
+    			<input type="text" class="form-control" id="finalAmountDetail" name="finalAmountDetail" 
+    			placeholder="Montant final" disabled>
   			</div>
   			
   			<div class="form-group">
-    			<input type="hidden" class="form-control" id="billId" name="billId" placeholder="Facture ID" value="<c:out value="${ bill.id }"/>">
+    			<input type="hidden" class="form-control" id="billIdDetail" name="billIdDetail" 
+    			placeholder="Facture ID" value="<c:out value="${ bill.id }"/>">
   			</div>
   			
   			<button type="submit" class="btn btn-default">Créer</button>
-		</form>
+		</form>		
 				
 	</div>
 	

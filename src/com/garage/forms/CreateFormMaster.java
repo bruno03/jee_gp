@@ -46,7 +46,7 @@ public abstract class CreateFormMaster {
 	    }
 
 	} catch (NumberFormatException e) {
-	    amountFinal = -1.0;
+	    amountFinal = null;
 	    throw new FormValidationException("Problème sur le casting du champs : Montant");
 	}
 	return amountFinal;

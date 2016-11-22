@@ -141,16 +141,30 @@
 	    	}
 	    });
  
-	    
+	    //Listener onChange du select des voitures
 	    $("#carSelected").change(function(){
 	    	$("#carIdBill").val(this.value);
 	    });
 	    
 	    
+	    $("#quantityDetail").change(function(){
+	    	calculateFinalAmountDetail();
+	    });
+	    
+	    $("#unitAmountDetail").change(function(){
+	    	calculateFinalAmountDetail();
+	    });
+	    
 	    
 	});
 	
-	
+	//Méthode pour calculer automatiquement le montant final d'un détail facture
+	function calculateFinalAmountDetail(){
+		var quantity = $("#quantityDetail").val(); 
+    	var unitAmount = $("#unitAmountDetail").val(); 
+    	
+    	$("#finalAmountDetail").val(quantity * unitAmount);		
+	}
 	</script>
 	
 </body>

@@ -205,7 +205,7 @@ public class DetailBillDaoImpl implements DetailBillDAO {
     private static DetailBill map(ResultSet resultSet) throws SQLException {
 	DetailBill billDetail = new DetailBill();
 	billDetail.setId(resultSet.getLong("id"));
-	billDetail.setQuantity(resultSet.getInt("quantite"));
+	billDetail.setQuantity(resultSet.getDouble("quantite"));
 	billDetail.setDescription(resultSet.getString("description"));
 	billDetail.setUnitAmount(resultSet.getDouble("montant_unitaire"));
 	billDetail.setFinalAmount(resultSet.getDouble("montant_final"));
