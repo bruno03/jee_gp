@@ -36,4 +36,19 @@ public abstract class CreateFormMaster {
 	    throw new FormValidationException("maximum " + maxLength + " caractères");
 	}
     }
+
+    protected Double validateAmount(String amount) throws FormValidationException {
+	Double amountFinal = -1.0;
+	try {
+	    amountFinal = Double.parseDouble(amount);
+	    if (amountFinal < 0) {
+		throw new FormValidationException("le montant ne peut pas être inférieur à 0");
+	    }
+
+	} catch (NumberFormatException e) {
+	    amountFinal = -1.0;
+	    throw new FormValidationException("Problème sur le casting du champs : Montant");
+	}
+	return amountFinal;
+    }
 }

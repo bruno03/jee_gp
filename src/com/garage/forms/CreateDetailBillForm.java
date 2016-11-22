@@ -63,7 +63,8 @@ public class CreateDetailBillForm extends CreateFormMaster {
 
     private void handleDescription(String description, DetailBill detailBill) {
 	try {
-
+	    validateDescription(description);
+	    validateLengthField(description, 100);
 	} catch (Exception e) {
 	    setErreur(FIELD_DESCRIPTION, e.getMessage());
 	}
@@ -117,21 +118,6 @@ public class CreateDetailBillForm extends CreateFormMaster {
     private void validateDescription(String description) throws FormValidationException {
 	if (description.length() < 2)
 	    throw new FormValidationException("La description doit contenir au moins 2 caractères");
-    }
-
-    private Double validateAmount(String amount) throws FormValidationException {
-	Double amountFinal = -1.0;
-	try {
-	    amountFinal = Double.parseDouble(amount);
-	    if (amountFinal < 0) {
-		throw new FormValidationException("le montant ne peut pas être inférieur à 0");
-	    }
-
-	} catch (NumberFormatException e) {
-	    amountFinal = -1.0;
-	    throw new FormValidationException("Problème sur le casting du champs : Montant");
-	}
-	return amountFinal;
     }
 
     private Long validateBill(String billId) throws FormValidationException {

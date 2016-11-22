@@ -9,6 +9,8 @@ public interface CategoryDAO {
 
     List<Category> getAll() throws DAOException;
 
+    Category getById(Long id) throws DAOException;
+
     void createCategory(Category category) throws DAOException;
 
     void deleteCategory(Category category) throws DAOException;

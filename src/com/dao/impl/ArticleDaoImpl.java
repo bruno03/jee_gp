@@ -10,27 +10,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dao.beans.Category;
+import com.dao.beans.Article;
 import com.dao.factories.DAOException;
 import com.dao.factories.DaoFactoryMySQL;
+import com.dao.interfaces.ArticleDAO;
 import com.dao.interfaces.CategoryDAO;
 
-public class CategoryDaoImpl implements CategoryDAO {
+public class ArticleDaoImpl implements ArticleDAO {
 
     private DaoFactoryMySQL daoFactory;
+    private CategoryDAO categoryDao;
 
-    public CategoryDaoImpl(DaoFactoryMySQL daoFactory) {
+    public ArticleDaoImpl(DaoFactoryMySQL daoFactory) {
 	this.daoFactory = daoFactory;
+	this.categoryDao = daoFactory.getCategoryDao();
     }
 
-    private static final String SQL_SELECT = "SELECT id, nom FROM categorie";
+    private static final String SQL_SELECT = "SELECT id, description, montant_unitaire, categorie_id FROM article";
 
     @Override
-    public List<Category> getAll() throws DAOException {
+    public List<Article> getAll() throws DAOException {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
-	List<Category> categories = new ArrayList<Category>();
+	List<Article> articles = new ArrayList<Article>();
 
 	try {
 	    /* Récupération d'une connexion depuis la Factory */
@@ -41,7 +44,7 @@ public class CategoryDaoImpl implements CategoryDAO {
 	     * Parcours de la ligne de données de l'éventuel ResulSet retourné
 	     */
 	    while (resultSet.next()) {
-		categories.add(map(resultSet));
+		articles.add(map(resultSet));
 	    }
 	} catch (SQLException e) {
 	    throw new DAOException(e);
@@ -49,17 +52,46 @@ public class CategoryDaoImpl implements CategoryDAO {
 	    fermeturesSilencieuses(resultSet, preparedStatement, connexion);
 	}
 
-	return categories;
+	return articles;
     }
 
-    private static final String SQL_SELECT_PAR_ID = "SELECT id, nom FROM categorie WHERE id = ?";
+    private static final String SQL_SELECT_BY_CATEGORY_ID = "SELECT id, description, montant_unitaire, categorie_id FROM article WHERE categorie_id = ?";
 
     @Override
-    public Category getById(Long id) throws DAOException {
+    public List<Article> getByCategoryId(Long CategoryId) throws DAOException {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
-	Category category = null;
+	List<Article> articles = new ArrayList<Article>();
+
+	try {
+	    /* Récupération d'une connexion depuis la Factory */
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_CATEGORY_ID, false, CategoryId);
+	    resultSet = preparedStatement.executeQuery();
+	    /*
+	     * Parcours de la ligne de données de l'éventuel ResulSet retourné
+	     */
+	    while (resultSet.next()) {
+		articles.add(map(resultSet));
+	    }
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(resultSet, preparedStatement, connexion);
+	}
+
+	return articles;
+    }
+
+    private static final String SQL_SELECT_PAR_ID = "SELECT id, description, montant_unitaire, categorie_id FROM article WHERE id = ?";
+
+    @Override
+    public Article getById(Long id) throws DAOException {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet resultSet = null;
+	Article article = null;
 
 	try {
 	    /* Récupération d'une connexion depuis la Factory */
@@ -70,7 +102,7 @@ public class CategoryDaoImpl implements CategoryDAO {
 	     * Parcours de la ligne de données de l'éventuel ResulSet retourné
 	     */
 	    if (resultSet.next()) {
-		category = map(resultSet);
+		article = map(resultSet);
 	    }
 	} catch (SQLException e) {
 	    throw new DAOException(e);
@@ -78,13 +110,13 @@ public class CategoryDaoImpl implements CategoryDAO {
 	    fermeturesSilencieuses(resultSet, preparedStatement, connexion);
 	}
 
-	return category;
+	return article;
     }
 
-    private static final String SQL_INSERT = "INSERT INTO categorie (nom) VALUES (?)";
+    private static final String SQL_INSERT = "INSERT INTO Article (description, montant_unitaire, categorie_id) VALUES (?, ?, ?)";
 
     @Override
-    public void createCategory(Category category) throws DAOException {
+    public void createArticle(Article article) throws DAOException {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 	ResultSet valeursAutoGenerees = null;
@@ -92,11 +124,12 @@ public class CategoryDaoImpl implements CategoryDAO {
 	try {
 	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, category.getName());
+	    preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, article.getDescription(),
+		    article.getUnitAmount(), article.getCategoryId());
 	    int statut = preparedStatement.executeUpdate();
 	    /* Analyse du statut retourné par la requête d'insertion */
 	    if (statut == 0) {
-		throw new DAOException("Échec de la création de la categorie, aucune ligne ajoutée dans la table.");
+		throw new DAOException("Échec de la création de l'article, aucune ligne ajoutée dans la table.");
 	    }
 	    /* Récupération de l'id auto-généré par la requête d'insertion */
 	    valeursAutoGenerees = preparedStatement.getGeneratedKeys();
@@ -105,9 +138,9 @@ public class CategoryDaoImpl implements CategoryDAO {
 		 * Puis initialisation de la propriété id du bean Utilisateur
 		 * avec sa valeur
 		 */
-		category.setId(valeursAutoGenerees.getLong(1));
+		article.setId(valeursAutoGenerees.getLong(1));
 	    } else {
-		throw new DAOException("Échec de la création de la categorie en base, aucun ID auto-généré retourné.");
+		throw new DAOException("Échec de la création de l'article en base, aucun ID auto-généré retourné.");
 	    }
 	} catch (SQLException e) {
 	    throw new DAOException(e);
@@ -117,10 +150,10 @@ public class CategoryDaoImpl implements CategoryDAO {
 
     }
 
-    private static final String SQL_DELETE = "DELETE FROM categorie WHERE id = ?";
+    private static final String SQL_DELETE = "DELETE FROM article WHERE id = ?";
 
     @Override
-    public void deleteCategory(Category category) throws DAOException {
+    public void deleteArticle(Article article) throws DAOException {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 	ResultSet valeursAutoGenerees = null;
@@ -128,11 +161,11 @@ public class CategoryDaoImpl implements CategoryDAO {
 	try {
 	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE, false, category.getId());
+	    preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE, false, article.getId());
 	    int statut = preparedStatement.executeUpdate();
 	    /* Analyse du statut retourné par la requête d'insertion */
 	    if (statut == 0) {
-		throw new DAOException("Échec de la suppression du categorie");
+		throw new DAOException("Échec de la suppression du article");
 	    }
 	} catch (SQLException e) {
 	    throw new DAOException(e);
@@ -142,11 +175,15 @@ public class CategoryDaoImpl implements CategoryDAO {
 
     }
 
-    private static Category map(ResultSet resultSet) throws SQLException {
-	Category category = new Category();
-	category.setId(resultSet.getLong("id"));
-	category.setName(resultSet.getString("nom"));
-	return category;
+    private Article map(ResultSet resultSet) throws SQLException {
+	Article article = new Article();
+	article.setId(resultSet.getLong("id"));
+	article.setDescription(resultSet.getString("description"));
+	article.setUnitAmount(resultSet.getDouble("montant_unitaire"));
+	article.setCategoryId(resultSet.getLong("categorie_id"));
+
+	article.setCategory(categoryDao.getById(article.getCategoryId()));
+	return article;
     }
 
 }
