@@ -35,6 +35,7 @@ public class DetailBillCreate extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 	CreateDetailBillForm form = new CreateDetailBillForm(detailBillDao);
 
 	DetailBill detailBill = form.createDetailBill(req);
@@ -44,9 +45,14 @@ public class DetailBillCreate extends HttpServlet {
 	List<DetailBill> details = detailBillDao.getByBillId(bill.getId());
 	bill.setDetails(details);
 
+	bill.calculateAmountFinal();
+	billDao.updateBill(bill);
+
 	req.setAttribute(ATT_BILL, bill);
 
-	this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+	if (form.getErreurs().isEmpty()) {
+	    resp.sendRedirect("facture?billId=" + detailBill.getBillId());
+	}
 
     }
 }

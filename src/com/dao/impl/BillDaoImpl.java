@@ -186,10 +186,30 @@ public class BillDaoImpl implements BillDAO {
 
     }
 
+    private static final String SQL_UPDATE = "UPDATE Facture SET date=?, client_id =?, voiture_id=?, km=?, montant=? WHERE id=?";
+
     @Override
     public void updateBill(Bill bill) throws DAOException {
-	// TODO Auto-generated method stub
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet valeursAutoGenerees = null;
 
+	try {
+	    /* Récupération d'une connexion depuis la Factory */
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE, false,
+		    new Timestamp(bill.getDate().getMillis()), bill.getClientId(), bill.getCarId(), bill.getKm(),
+		    bill.getAmount(), bill.getId());
+	    int statut = preparedStatement.executeUpdate();
+	    /* Analyse du statut retourné par la requête d'insertion */
+	    if (statut == 0) {
+		throw new DAOException("Échec de la modification de la facture");
+	    }
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(valeursAutoGenerees, preparedStatement, connexion);
+	}
     }
 
     @Override

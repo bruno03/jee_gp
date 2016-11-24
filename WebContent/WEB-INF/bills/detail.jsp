@@ -76,7 +76,7 @@ charset=UTF-8"
   			
   			<div class="form-group">
     			<input type="text" class="form-control" id="finalAmountDetail" name="finalAmountDetail" 
-    			placeholder="Montant final" disabled>
+    			placeholder="Montant final" readonly>
   			</div>
   			
   			<div class="form-group">

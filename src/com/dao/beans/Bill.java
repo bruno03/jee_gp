@@ -89,4 +89,12 @@ public class Bill {
 	this.details = details;
     }
 
+    public void calculateAmountFinal() {
+	this.amount = 0.0;
+
+	for (int i = 0; i < details.size(); i++) {
+	    this.amount += details.get(i).getFinalAmount();
+	}
+    }
+
 }

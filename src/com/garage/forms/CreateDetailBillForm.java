@@ -24,7 +24,7 @@ public class CreateDetailBillForm extends CreateFormMaster {
 
 	String quantity = getValueField(request, FIELD_QUANTITY);
 	String description = getValueField(request, FIELD_DESCRIPTION);
-	String unitAmount = getValueField(request, FIELD_FINAL_AMOUNT);
+	String unitAmount = getValueField(request, FIELD_UNIT_AMOUNT);
 	String finalAmount = getValueField(request, FIELD_FINAL_AMOUNT);
 	String billId = getValueField(request, FIELD_BILL_ID);
 

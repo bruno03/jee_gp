@@ -163,6 +163,8 @@
 		var quantity = $("#quantityDetail").val(); 
     	var unitAmount = $("#unitAmountDetail").val(); 
     	
+    	console.log(quantity);
+    	console.log(unitAmount);
     	$("#finalAmountDetail").val(quantity * unitAmount);		
 	}
 	</script>
