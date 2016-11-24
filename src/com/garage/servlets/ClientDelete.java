@@ -15,8 +15,7 @@ import com.dao.interfaces.ClientDAO;
 @WebServlet(urlPatterns = "/deleteClient")
 public class ClientDelete extends HttpServlet {
 
-    private static final String VIEW_FORM = "/WEB-INF/clients/update.jsp";
-    private static final String VIEW_CLIENTS = "clients";
+    private static final String REDIRECTION = "clients";
 
     private static final String FIELD_CUSTOMER_ID = "clientId";
 
@@ -41,6 +40,6 @@ public class ClientDelete extends HttpServlet {
 	Client client = clientDao.getById(id);
 	clientDao.deleteClient(client);
 
-	resp.sendRedirect(VIEW_CLIENTS);
+	resp.sendRedirect(REDIRECTION);
     }
 }

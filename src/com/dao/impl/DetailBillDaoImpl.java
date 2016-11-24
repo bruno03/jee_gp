@@ -177,7 +177,7 @@ public class DetailBillDaoImpl implements DetailBillDAO {
 
     }
 
-    private static final String SQL_DELETE = "DELETE FROM facture_id WHERE id = ?";
+    private static final String SQL_DELETE = "DELETE FROM facture_detail WHERE id = ?";
 
     @Override
     public void deleteBillDetail(DetailBill billDetail) throws DAOException {

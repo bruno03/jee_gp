@@ -41,7 +41,7 @@ charset=UTF-8"
 				<th>Description</th>
 				<th>Prix unitaire</th>
 				<th>Prix final</th>
-				<th>FactureID</th>
+				<th></th>
 			</tr>
 			<c:forEach items="${ bill.details }" var="detail" varStatus="boucle">                          
 				<tr>
@@ -50,7 +50,12 @@ charset=UTF-8"
 					<td><c:out value="${ detail.description }" /></td>
 					<td><c:out value="${ detail.unitAmount }" /></td>
 					<td><c:out value="${ detail.finalAmount }" /></td>
-					<td><c:out value="${ detail.billId }" /></td>
+					<td>
+						<a class="btn btn-danger btn-xs" href="<c:url value="/deleteDetailBill">
+							<c:param name="detailId" value="${ detail.id }" />
+						</c:url>" role="button">supprimer</a>	
+					
+					</td>
 					
 				</tr>				
 			</c:forEach>		

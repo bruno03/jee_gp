@@ -14,13 +14,15 @@ import com.dao.beans.DetailBill;
 import com.dao.factories.DaoFactoryMySQL;
 import com.dao.interfaces.BillDAO;
 import com.dao.interfaces.DetailBillDAO;
-import com.garage.forms.CreateDetailBillForm;
 
-@WebServlet(urlPatterns = "/newDetailBill")
-public class DetailBillCreate extends HttpServlet {
+@WebServlet(urlPatterns = "/deleteDetailBill")
+public class DetailBillDelete extends HttpServlet {
+
+    private static final String REDIRECTION = "facture?billId=";
+
+    private static final String FIELD_DETAIL_ID = "detailId";
 
     private static final String ATT_BILL = "bill";
-    private static final String ATT_FORM = "form";
 
     private static final String CONF_DAO_FACTORY = "daofactory";
     private DetailBillDAO detailBillDao;
@@ -29,16 +31,24 @@ public class DetailBillCreate extends HttpServlet {
     public void init() throws ServletException {
 	this.detailBillDao = ((DaoFactoryMySQL) getServletContext().getAttribute(CONF_DAO_FACTORY)).getBillDetailDao();
 	this.billDao = ((DaoFactoryMySQL) getServletContext().getAttribute(CONF_DAO_FACTORY)).getBillDao();
+
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-	CreateDetailBillForm form = new CreateDetailBillForm(detailBillDao);
+	String detailId = req.getParameter(FIELD_DETAIL_ID);
+	Long id;
+	try {
+	    id = Long.parseLong(detailId);
+	} catch (Exception e) {
+	    id = 0L;
+	}
 
-	DetailBill detailBill = form.createDetailBill(req);
+	DetailBill detail = detailBillDao.getById(id);
+	detailBillDao.deleteBillDetail(detail);
 
-	Bill bill = billDao.getById(detailBill.getBillId());
+	Bill bill = billDao.getById(detail.getBillId());
 
 	List<DetailBill> details = detailBillDao.getByBillId(bill.getId());
 	bill.setDetails(details);
@@ -48,9 +58,8 @@ public class DetailBillCreate extends HttpServlet {
 
 	req.setAttribute(ATT_BILL, bill);
 
-	if (form.getErreurs().isEmpty()) {
-	    resp.sendRedirect("facture?billId=" + detailBill.getBillId());
-	}
+	resp.sendRedirect(REDIRECTION + detail.getBillId());
 
     }
+
 }
